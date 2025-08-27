@@ -1,12 +1,10 @@
 'use client'
-// this is a client component because it uses the `useState` hook
 
-import { useState } from 'react'
+import { setLocale } from '@/action'
 import { msg } from '@lingui/core/macro'
 import { useLingui } from '@lingui/react'
-import { usePathname, useRouter } from 'next/navigation'
 
-type LOCALES = 'en' | 'sr' | 'es' | 'pseudo'
+export type LOCALES = 'en' | 'sr' | 'es' | 'pseudo'
 
 const languages = {
   en: msg`English`,
@@ -15,32 +13,13 @@ const languages = {
   zh: msg`Chinese`
 } as const
 
-export function Switcher() {
-  const router = useRouter()
+export async function Switcher(props: { locale: LOCALES }) {
   const { i18n } = useLingui()
-  const pathname = usePathname()
-
-  const [locale, setLocale] = useState<LOCALES>(
-    pathname?.split('/')[1] as LOCALES
-  )
-
-  // disabled for DEMO - so we can demonstrate the 'pseudo' locale functionality
-  // if (process.env.NEXT_PUBLIC_NODE_ENV !== 'production') {
-  //   languages['pseudo'] = t`Pseudo`
-  // }
-
-  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const locale = event.target.value as LOCALES
-
-    const pathNameWithoutLocale = pathname?.split('/')?.slice(2) ?? []
-    const newPath = `/${locale}/${pathNameWithoutLocale.join('/')}`
-
-    setLocale(locale)
-    router.push(newPath)
-  }
-
+  const { locale } = props
   return (
-    <select value={locale} onChange={handleChange}>
+    <select name='locale' value={locale} onChange={(e) => {
+      setLocale(e.target.value as LOCALES)
+    }}>
       {Object.keys(languages).map((locale) => {
         return (
           <option value={locale} key={locale}>
@@ -49,5 +28,6 @@ export function Switcher() {
         )
       })}
     </select>
+
   )
 }

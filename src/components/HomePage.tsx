@@ -1,9 +1,11 @@
+import { getLocale } from "@/action";
 import { Switcher } from "@/components/Switcher";
 import { Trans } from "@lingui/react/macro";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const locale = await getLocale()
   return <div>
-    <Switcher />
+    <Switcher locale={locale} />
 
     <Trans id="next-explanation">
       Next.js is an open-source React front-end development web framework that
