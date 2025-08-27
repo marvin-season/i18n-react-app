@@ -10,7 +10,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/app/[lang]/app-router-demo/page.tsx:7
 msgid "next-explanation"
-msgstr ""
+msgstr "NextJS 很好用"
 
 #: src/app/[lang]/layout.tsx:16
 msgid "Translation Demo"
